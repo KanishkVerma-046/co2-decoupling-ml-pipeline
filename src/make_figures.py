@@ -156,7 +156,7 @@ def fig_missingness():
     pi = pi[[c for c in inc_order if c in pi.columns]]
     n = mi.drop_duplicates("income_group").set_index("income_group")["n_rows"]
     fig, axes = plt.subplots(1, 2, figsize=(W, 3.9), gridspec_kw={"width_ratios": [2.2, 1]})
-    for ax, data, xl in ((axes[0], py, "Window start year t"), (axes[1], pi, "World Bank income group")):
+    for ax, data, xl in ((axes[0], py, "Window start year t"), (axes[1], pi, "Income group")):
         im = ax.imshow(100 * data.values, aspect="auto", cmap="Blues", vmin=0, vmax=100)
         ax.set_yticks(range(len(order)))
         ax.set_yticklabels(order if ax is axes[0] else [], fontsize=7)
@@ -164,11 +164,11 @@ def fig_missingness():
         if ax is axes[0]:
             ax.set_xticks(range(0, len(cols), 4)); ax.set_xticklabels([cols[i] for i in range(0, len(cols), 4)])
         else:
-            short = {"High income": "High", "Upper middle income": "Upper-mid", "Lower middle income": "Lower-mid",
-                     "Low income": "Low", "Not classified": "Not cl."}
+            short = {"High income": "High", "Upper middle income": "Upper", "Lower middle income": "Lower",
+                     "Low income": "Low", "Not classified": "n/c"}
             ax.set_xticks(range(len(cols)))
             ax.set_xticklabels([f"{short[c]}\n{n[c]:,}" for c in cols], fontsize=6.0)
-        ax.set_xlabel(xl + (" (rows below name)" if ax is axes[1] else "")); ax.grid(False)
+        ax.set_xlabel(xl); ax.grid(False)
         for s in ax.spines.values():
             s.set_visible(False)
     cb = fig.colorbar(im, ax=axes, fraction=0.025, pad=0.02)
