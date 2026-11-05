@@ -171,4 +171,10 @@ Fixed `random_state = 42` everywhere. scikit-learn only.
 
 ## Deviations (appended after the plan was committed; dated)
 
-*(none yet)*
+**2026-11-05 (before the test run; none of these touched the test years)**
+
+1. `src/evaluate_cv.py` was run twice. The first run wrote duplicate rows into `results/robustness_cv.csv` (the chosen model and the logistic baseline are the same model, so one row was written twice). The loop was fixed to de-duplicate and the script re-run. All fitted numbers, the selection and the frozen threshold were identical in both runs.
+2. The saga solver of the elastic-net logistic regression reached `max_iter = 5000` without full convergence for some large-`C` candidates inside the randomised search (a convergence warning, suppressed in the logs). The grid was not changed; the selected configuration (`C = 3`) is reported as fitted.
+3. `IterativeImputer` printed convergence warnings with `max_iter = 10` and `BayesianRidge`; they are suppressed and `max_iter` was not changed. The option did not win the pre-specified selection rule for any model.
+4. `src/evaluate_test.py` has a `--rehearsal` mode that runs the same code on a pseudo-split carved out of the pool (train `t <= 2005`, pseudo-test `t = 2009-2011`) to debug the script without opening the test labels. Its outputs are git-ignored.
+5. The plan describes a "simpler model within one standard error" rule. The standard error is the fold-to-fold standard deviation divided by the square root of five; with five temporally dependent folds this is a rough yardstick. It is used exactly as pre-specified.
