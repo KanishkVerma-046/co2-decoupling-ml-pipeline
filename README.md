@@ -31,7 +31,7 @@ No API key is needed. `data/raw/manifest.json` records URL, UTC time, size and S
 ## Repository layout
 
 ```
-README.md, CLAUDE.md, requirements.txt, pytest.ini
+README.md, requirements.txt, pytest.ini
 docs/ml_plan.md                  pre-specification (first commit) + dated Deviations
 src/acquire.py, clean.py         data download and cleaning (ported from Weeks 1-2)
 src/features.py                  feature engineering, label, pool / purge / test split, rolling-origin folds
